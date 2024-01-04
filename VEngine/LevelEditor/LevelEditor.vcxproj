@@ -126,29 +126,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Audio\Audio.vcxproj">
-      <Project>{df78928c-9a1e-48e3-83ee-c8ceacdc40e8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\GameLogic\GameLogic.vcxproj">
-      <Project>{5ecd7771-6066-44dc-b7e4-2a929e4dd6c2}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Graphics\Graphics.vcxproj">
-      <Project>{a87a0e98-469d-465d-add2-de1b745a61bf}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Input\Input.vcxproj">
-      <Project>{c74f7801-b24d-40f6-8077-9690b1e29591}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Lightning\Lightning.vcxproj">
-      <Project>{0de7f34a-e78d-407f-b602-92979ec518ec}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Physics\Physics.vcxproj">
-      <Project>{0226700e-0557-4e8e-880c-4911358e6aa6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Utility\Utility.vcxproj">
-      <Project>{88304fcc-6261-4b12-8265-4f3f13c73b94}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

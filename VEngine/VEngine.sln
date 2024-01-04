@@ -4,43 +4,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "Graphics\Graphics.vcxproj", "{A87A0E98-469D-465D-ADD2-DE1B745A61BF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{307FA219-6039-4111-9F98-04C8E7066F88} = {307FA219-6039-4111-9F98-04C8E7066F88}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shaders", "Shaders\Shaders.vcxproj", "{EABC225B-4E1F-4133-BFB4-3FE4CCA67DD1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lightning", "Lightning\Lightning.vcxproj", "{0DE7F34A-E78D-407F-B602-92979EC518EC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{307FA219-6039-4111-9F98-04C8E7066F88} = {307FA219-6039-4111-9F98-04C8E7066F88}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Audio\Audio.vcxproj", "{DF78928C-9A1E-48E3-83EE-C8CEACDC40E8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{307FA219-6039-4111-9F98-04C8E7066F88} = {307FA219-6039-4111-9F98-04C8E7066F88}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Networking", "Networking\Networking.vcxproj", "{2DDE6AA1-019B-4BB4-8168-DB7C27452B84}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Input", "Input\Input.vcxproj", "{C74F7801-B24D-40F6-8077-9690B1E29591}"
-	ProjectSection(ProjectDependencies) = postProject
-		{307FA219-6039-4111-9F98-04C8E7066F88} = {307FA219-6039-4111-9F98-04C8E7066F88}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "Physics\Physics.vcxproj", "{0226700E-0557-4E8E-880C-4911358E6AA6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{307FA219-6039-4111-9F98-04C8E7066F88} = {307FA219-6039-4111-9F98-04C8E7066F88}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utility", "Utility\Utility.vcxproj", "{88304FCC-6261-4B12-8265-4F3F13C73B94}"
-	ProjectSection(ProjectDependencies) = postProject
-		{307FA219-6039-4111-9F98-04C8E7066F88} = {307FA219-6039-4111-9F98-04C8E7066F88}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLogic", "GameLogic\GameLogic.vcxproj", "{5ECD7771-6066-44DC-B7E4-2A929E4DD6C2}"
-	ProjectSection(ProjectDependencies) = postProject
-		{307FA219-6039-4111-9F98-04C8E7066F88} = {307FA219-6039-4111-9F98-04C8E7066F88}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LevelEditor", "LevelEditor\LevelEditor.vcxproj", "{99D8BD46-01C3-4532-83A1-A3594C47B1DF}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -65,6 +44,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreEngine", "CoreEngine\CoreEngine.vcxproj", "{307FA219-6039-4111-9F98-04C8E7066F88}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EABC225B-4E1F-4133-BFB4-3FE4CCA67DD1} = {EABC225B-4E1F-4133-BFB4-3FE4CCA67DD1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

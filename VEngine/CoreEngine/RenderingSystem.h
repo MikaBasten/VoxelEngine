@@ -1,7 +1,8 @@
-#pragma once
-#define SDL_MAIN_HANDLED
-#include <SDL.h>
+#include <iostream>
+#include <vector>
 #include <glew.h>
+#include <SDL.h>
+#include "ShaderLoader.h"  
 
 class RenderingSystem {
 public:
@@ -18,9 +19,10 @@ private:
     SDL_GLContext context;
     GLuint vertexArrayID;
     GLuint vertexBufferID;
+    GLuint shaderProgramID;  // Added for shader support
     int screenWidth;
     int screenHeight;
     bool isFullscreen;
 
-    // Add any additional OpenGL-related variables you need
+    void SetupShaders();
 };
