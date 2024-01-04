@@ -145,14 +145,8 @@
     <ProjectReference Include="..\Physics\Physics.vcxproj">
       <Project>{0226700e-0557-4e8e-880c-4911358e6aa6}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Shaders\Shaders.vcxproj">
-      <Project>{eabc225b-4e1f-4133-bfb4-3fe4cca67dd1}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.vcxproj">
       <Project>{88304fcc-6261-4b12-8265-4f3f13c73b94}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\VEngine\VEngine.vcxproj">
-      <Project>{950cb65e-d9c6-49c7-8e99-5398193886e5}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

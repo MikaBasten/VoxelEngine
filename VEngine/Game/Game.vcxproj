@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\Mika\source\repos\VoxelEngine\VEngine\CoreEngine;$(SolutionDir)VEngine\CoreEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +131,9 @@
     <ProjectReference Include="..\Audio\Audio.vcxproj">
       <Project>{df78928c-9a1e-48e3-83ee-c8ceacdc40e8}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\CoreEngine\CoreEngine.vcxproj">
+      <Project>{307fa219-6039-4111-9f98-04c8e7066f88}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GameLogic\GameLogic.vcxproj">
       <Project>{5ecd7771-6066-44dc-b7e4-2a929e4dd6c2}</Project>
     </ProjectReference>
@@ -148,15 +152,12 @@
     <ProjectReference Include="..\Physics\Physics.vcxproj">
       <Project>{0226700e-0557-4e8e-880c-4911358e6aa6}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Shaders\Shaders.vcxproj">
-      <Project>{eabc225b-4e1f-4133-bfb4-3fe4cca67dd1}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.vcxproj">
       <Project>{88304fcc-6261-4b12-8265-4f3f13c73b94}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\VEngine\VEngine.vcxproj">
-      <Project>{950cb65e-d9c6-49c7-8e99-5398193886e5}</Project>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\CoreEngine\Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
