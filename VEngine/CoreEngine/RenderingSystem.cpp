@@ -78,24 +78,9 @@ void RenderingSystem::Initialize(int screenWidth, int screenHeight, bool fullscr
     glGenVertexArrays(1, &vertexArrayID);
     glBindVertexArray(vertexArrayID);
 
-    // Create a simple triangle for demonstration purposes
-    GLfloat vertexBufferData[] = {
-        // Vertex 1: position (x, y, z), color (r, g, b)
-        -1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f,  // Red
-
-        // Vertex 2: position (x, y, z), color (r, g, b)
-        1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,  // Green
-
-        // Vertex 3: position (x, y, z), color (r, g, b)
-        1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f  // Blue
-
-    };
-
-
     // Generate and bind a Vertex Buffer Object (VBO)
     glGenBuffers(1, &vertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexBufferData), vertexBufferData, GL_STATIC_DRAW);
 
     // Initialize shaders
     SetupShaders();
@@ -140,6 +125,7 @@ void RenderingSystem::SetupShaders() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
 
+
     // Get the uniform locations
     GLint modelMatrixLocation = glGetUniformLocation(shaderProgramID, "model");
     GLint viewMatrixLocation = glGetUniformLocation(shaderProgramID, "view");
@@ -160,9 +146,25 @@ void RenderingSystem::SetupShaders() {
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
 
-void RenderingSystem::Render() {
+
+void RenderingSystem::LoadScene(const GLfloat* vertexBufferData, GLsizei bufferSize) {
+    // Assuming you have already generated and bound the vertex array and buffer objects
+    glBindVertexArray(vertexArrayID);
+
+    // Clear previous buffer data
+    glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STATIC_DRAW);
+
+    // Load the provided vertex buffer data
+    glBufferData(GL_ARRAY_BUFFER, bufferSize, vertexBufferData, GL_STATIC_DRAW);
+}
+
+
+void RenderingSystem::Render(GLsizei vertexCount) {
     // Clear the screen and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Use the shader program
+    glUseProgram(shaderProgramID);
 
     // Configure viewport
     glViewport(0, 0, screenWidth, screenHeight);
@@ -179,9 +181,14 @@ void RenderingSystem::Render() {
     GLint modelMatrixLocation = glGetUniformLocation(shaderProgramID, "model");
     glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
-    // Draw the triangle using shaders
+    // Draw the geometry using shaders
     glBindVertexArray(vertexArrayID);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+   
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
 
     // Swap buffers at the end of the rendering process
     SDL_GL_SwapWindow(window);
@@ -192,6 +199,7 @@ void RenderingSystem::Render() {
         std::cerr << "OpenGL error (after rendering): " << error << std::endl;
     }
 }
+
 
 
 

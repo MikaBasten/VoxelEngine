@@ -11,7 +11,8 @@ public:
     ~RenderingSystem();
 
     void Initialize(int screenWidth, int screenHeight, bool fullscreen);
-    void Render();
+    void LoadScene(const GLfloat* vertexBufferData, GLsizei bufferSize);
+    void Render(GLsizei vertexCount);
     void ResizeWindow(int newWidth, int newHeight);
     void ToggleFullscreen();
     void UpdateCamera(SDL_Event& event);

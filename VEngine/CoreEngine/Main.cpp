@@ -10,6 +10,27 @@ int SDL_main(int argc, char* argv[]) {
 
     renderingSystem.Initialize(800, 600, false);
 
+
+    // Vertices for a square
+    GLfloat squareVertices[] = {
+        // Vertex 1: position (x, y, z), color (r, g, b)
+        -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // Top-left, Red
+
+        // Vertex 2: position (x, y, z), color (r, g, b)
+         0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // Top-right, Green
+
+         // Vertex 3: position (x, y, z), color (r, g, b)
+          0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  // Bottom-right, Blue
+
+          // Vertex 4: position (x, y, z), color (r, g, b)
+          -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f   // Bottom-left, White
+    };
+
+
+    // Load the single polygon scene
+    renderingSystem.LoadScene(squareVertices, sizeof(squareVertices));
+
+
     // Main render loop
     bool isRunning = true;
     while (isRunning) {
@@ -24,8 +45,8 @@ int SDL_main(int argc, char* argv[]) {
         }
 
         // You can call other update logic here
-
-        renderingSystem.Render();
+        
+        renderingSystem.Render(6);
 
         // You might want to add a delay to control the frame rate
         SDL_Delay(16); // Adjust as needed
