@@ -3,6 +3,7 @@
 #include <glew.h>
 #include <SDL.h>
 #include "ShaderLoader.h"  
+#include "Camera.h"
 
 class RenderingSystem {
 public:
@@ -13,6 +14,7 @@ public:
     void Render();
     void ResizeWindow(int newWidth, int newHeight);
     void ToggleFullscreen();
+    void UpdateCamera(SDL_Event& event);
 
 private:
     SDL_Window* window;
@@ -23,6 +25,8 @@ private:
     int screenWidth;
     int screenHeight;
     bool isFullscreen;
+
+    Camera camera;
 
     void SetupShaders();
 };

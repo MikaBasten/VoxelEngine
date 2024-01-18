@@ -2,6 +2,7 @@
 #include "ShaderLoader.h"
 #include <iostream>
 #include <filesystem>
+#include <gtc/type_ptr.hpp>
 
 RenderingSystem::RenderingSystem()
     : window(nullptr), context(nullptr), vertexArrayID(0), vertexBufferID(0),
@@ -78,8 +79,10 @@ void RenderingSystem::Initialize(int screenWidth, int screenHeight, bool fullscr
         1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,  // Green
 
         // Vertex 3: position (x, y, z), color (r, g, b)
-        0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f  // Blue
+        1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f  // Blue
+
     };
+
 
     // Generate and bind a Vertex Buffer Object (VBO)
     glGenBuffers(1, &vertexBufferID);
@@ -93,8 +96,8 @@ void RenderingSystem::Initialize(int screenWidth, int screenHeight, bool fullscr
 void RenderingSystem::SetupShaders() {
     std::cout << "Current working directory: " << std::filesystem::current_path() << std::endl;
     // Load and compile shaders 
-    GLuint vertexShaderID = LoadShader("C:\\Users\\Mika\\source\\repos\\VoxelEngine\\VEngine\\Shaders\\vertex_shader.glsl", GL_VERTEX_SHADER);
-    GLuint fragmentShaderID = LoadShader("C:\\Users\\Mika\\source\\repos\\VoxelEngine\\VEngine\\Shaders\\fragment_shader.glsl", GL_FRAGMENT_SHADER);
+    GLuint vertexShaderID = LoadShader("vertex_shader.glsl", GL_VERTEX_SHADER);
+    GLuint fragmentShaderID = LoadShader("fragment_shader.glsl", GL_FRAGMENT_SHADER);
 
     // Link shaders into a program
     shaderProgramID = glCreateProgram();
@@ -128,6 +131,7 @@ void RenderingSystem::SetupShaders() {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
+
 }
 
 void RenderingSystem::Render() {
@@ -136,6 +140,13 @@ void RenderingSystem::Render() {
 
     // Configure viewport
     glViewport(0, 0, screenWidth, screenHeight);
+
+    // Get the camera's view matrix
+    glm::mat4 viewMatrix = camera.GetViewMatrix();
+
+    // Set the view matrix uniform in the shader program
+    GLint viewMatrixLocation = glGetUniformLocation(shaderProgramID, "view");
+    glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
     // Draw the triangle using shaders
     glBindVertexArray(vertexArrayID);
@@ -162,4 +173,9 @@ void RenderingSystem::ToggleFullscreen() {
     isFullscreen = !isFullscreen;
     SDL_SetWindowFullscreen(window, isFullscreen ? SDL_WINDOW_FULLSCREEN : 0);
     // Additional code to handle fullscreen toggle, if needed
+}
+
+void RenderingSystem::UpdateCamera(SDL_Event& event)
+{
+    camera.Update(event);
 }
