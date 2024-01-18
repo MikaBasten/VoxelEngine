@@ -62,12 +62,12 @@ void Camera::HandleKeyRelease(SDL_Keycode key) {
 
 void Camera::HandleMouseMovement(int deltaX, int deltaY) {
     // Adjust yaw and pitch based on mouse movement
-    const float sensitivity = 0.05f;
-    deltaX *= static_cast<int>(sensitivity);
-    deltaY *= static_cast<int>(sensitivity);
+    const float sensitivity = 0.2f;
+    deltaX *= sensitivity;
+    deltaY *= sensitivity;
 
     yaw += deltaX;
-    pitch += deltaY;
+    pitch -= deltaY;
 
     // Clamp pitch to avoid flipping the camera
     if (pitch > 89.0f) {

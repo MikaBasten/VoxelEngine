@@ -5,10 +5,19 @@ layout(location = 1) in vec3 inColor;
 
 uniform mat4 model;
 uniform mat4 view;
+uniform mat4 projection;
 
-out vec3 color;
+out vec3 fragColor;
+out float depth; // Add this line
 
 void main() {
-    gl_Position = view * model * vec4(inPosition, 1.0);
-    color = inColor;
+    // Combine matrices to get the final MVP (Model-View-Projection) matrix
+    mat4 mvp = projection * view * model;
+    gl_Position = mvp * vec4(inPosition, 1.0);
+
+    // Pass color to fragment shader
+    fragColor = inColor;
+
+    // Calculate depth for the fragment
+    depth = gl_Position.z / gl_Position.w;
 }

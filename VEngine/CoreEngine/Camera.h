@@ -15,6 +15,8 @@ public:
         return glm::lookAt(position, position + front, up);
     }
 
+    void HandleMouseMovement(int deltaX, int deltaY);
+
 private:
     glm::vec3 position;
     glm::vec3 front;
@@ -26,5 +28,4 @@ private:
 
     void HandleKeyPress(SDL_Keycode key);
     void HandleKeyRelease(SDL_Keycode key);
-    void HandleMouseMovement(int deltaX, int deltaY);
 };

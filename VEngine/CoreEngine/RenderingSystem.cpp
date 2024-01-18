@@ -7,7 +7,8 @@
 
 RenderingSystem::RenderingSystem()
     : window(nullptr), context(nullptr), vertexArrayID(0), vertexBufferID(0),
-    shaderProgramID(0), screenWidth(800), screenHeight(600), isFullscreen(false) {}
+    shaderProgramID(0), screenWidth(800), screenHeight(600), isFullscreen(false), isMouseLocked(false) {}
+
 
 RenderingSystem::~RenderingSystem() {
     glDeleteBuffers(1, &vertexBufferID);
@@ -57,6 +58,12 @@ void RenderingSystem::Initialize(int screenWidth, int screenHeight, bool fullscr
         std::cerr << "GLEW initialization failed" << std::endl;
         // Handle GLEW initialization failure (throw an exception, exit the program, etc.)
     }
+
+    // Enable depth testing
+    glEnable(GL_DEPTH_TEST);
+
+    // Set the depth test function
+    glDepthFunc(GL_LESS);
 
     // Set the clear color to, for example, white (R, G, B, A)
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -136,9 +143,10 @@ void RenderingSystem::SetupShaders() {
     // Get the uniform locations
     GLint modelMatrixLocation = glGetUniformLocation(shaderProgramID, "model");
     GLint viewMatrixLocation = glGetUniformLocation(shaderProgramID, "view");
+    GLint projectionMatrixLocation = glGetUniformLocation(shaderProgramID, "projection"); // Add this line
 
     // Check for uniform location validity (you should handle this more gracefully)
-    if (modelMatrixLocation == -1 || viewMatrixLocation == -1) {
+    if (modelMatrixLocation == -1 || viewMatrixLocation == -1 || projectionMatrixLocation == -1) {
         std::cerr << "Error: Could not get uniform locations." << std::endl;
         // Handle error (throw an exception, exit the program, etc.)
     }
@@ -146,11 +154,15 @@ void RenderingSystem::SetupShaders() {
     // Set the initial model matrix (identity matrix)
     glm::mat4 modelMatrix = glm::mat4(1.0f);
     glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+
+    // Set up perspective projection matrix
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), static_cast<float>(screenWidth) / static_cast<float>(screenHeight), 0.1f, 100.0f);
+    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
 
 void RenderingSystem::Render() {
-    // Clear the screen
-    glClear(GL_COLOR_BUFFER_BIT);
+    // Clear the screen and depth buffer
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Configure viewport
     glViewport(0, 0, screenWidth, screenHeight);
@@ -182,6 +194,7 @@ void RenderingSystem::Render() {
 }
 
 
+
 void RenderingSystem::ResizeWindow(int newWidth, int newHeight) {
     screenWidth = newWidth;
     screenHeight = newHeight;
@@ -195,7 +208,25 @@ void RenderingSystem::ToggleFullscreen() {
     // Additional code to handle fullscreen toggle, if needed
 }
 
-void RenderingSystem::UpdateCamera(SDL_Event& event)
-{
+void RenderingSystem::UpdateCamera(SDL_Event& event) {
+    // Handle mouse locking
+    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_l) {
+        isMouseLocked = !isMouseLocked;
+        SDL_SetRelativeMouseMode(isMouseLocked ? SDL_TRUE : SDL_FALSE);
+
+        // If mouse is locked, warp it to the center of the screen
+        if (isMouseLocked) {
+            int centerX = screenWidth / 2;
+            int centerY = screenHeight / 2;
+            SDL_WarpMouseInWindow(window, centerX, centerY);
+        }
+    }
+
+    // Update the camera with mouse movement
+    int mouseX, mouseY;
+    SDL_GetRelativeMouseState(&mouseX, &mouseY);
+    camera.HandleMouseMovement(mouseX, mouseY);
+
+    // Update the camera with other events (keyboard, etc.)
     camera.Update(event);
 }

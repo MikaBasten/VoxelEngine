@@ -28,6 +28,7 @@ private:
     int screenWidth;
     int screenHeight;
     bool isFullscreen;
+    bool isMouseLocked;
 
     Camera camera;
 
