@@ -1,7 +1,8 @@
 #include "Camera.h"
+#include <iostream>
 
 Camera::Camera()
-    : position(glm::vec3(0.0f, 0.0f, 3.0f)),
+    : position(glm::vec3(0.0f, 0.0f, 1.0f)),
     front(glm::vec3(0.0f, 0.0f, -1.0f)),
     up(glm::vec3(0.0f, 1.0f, 0.0f)),
     speed(0.05f),
@@ -13,6 +14,7 @@ Camera::~Camera() {
 }
 
 void Camera::Update(SDL_Event& event) {
+    std::cout << "Camera Position: (" << position.x << ", " << position.y << ", " << position.z << ", " << pitch << ", " << yaw << ")" << std::endl;
     switch (event.type) {
     case SDL_KEYDOWN:
         HandleKeyPress(event.key.keysym.sym);
@@ -42,6 +44,13 @@ void Camera::HandleKeyPress(SDL_Keycode key) {
     case SDLK_d:
         position += glm::normalize(glm::cross(front, up)) * speed;
         break;
+    case SDLK_SPACE:
+        position += speed * up;
+        break;
+    case SDLK_LCTRL:
+        position -= speed * up;
+        break;
+
     default:
         break;
     }

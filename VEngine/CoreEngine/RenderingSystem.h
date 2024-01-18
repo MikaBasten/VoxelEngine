@@ -15,6 +15,9 @@ public:
     void ResizeWindow(int newWidth, int newHeight);
     void ToggleFullscreen();
     void UpdateCamera(SDL_Event& event);
+    // Inside Camera class
+    glm::mat4 GetProjectionMatrix();
+
 
 private:
     SDL_Window* window;

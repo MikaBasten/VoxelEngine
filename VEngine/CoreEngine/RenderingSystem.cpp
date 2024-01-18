@@ -2,6 +2,7 @@
 #include "ShaderLoader.h"
 #include <iostream>
 #include <filesystem>
+#include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
 RenderingSystem::RenderingSystem()
@@ -132,6 +133,19 @@ void RenderingSystem::SetupShaders() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
 
+    // Get the uniform locations
+    GLint modelMatrixLocation = glGetUniformLocation(shaderProgramID, "model");
+    GLint viewMatrixLocation = glGetUniformLocation(shaderProgramID, "view");
+
+    // Check for uniform location validity (you should handle this more gracefully)
+    if (modelMatrixLocation == -1 || viewMatrixLocation == -1) {
+        std::cerr << "Error: Could not get uniform locations." << std::endl;
+        // Handle error (throw an exception, exit the program, etc.)
+    }
+
+    // Set the initial model matrix (identity matrix)
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 }
 
 void RenderingSystem::Render() {
@@ -148,6 +162,11 @@ void RenderingSystem::Render() {
     GLint viewMatrixLocation = glGetUniformLocation(shaderProgramID, "view");
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
+    // Set the model matrix to the identity matrix (no translation)
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    GLint modelMatrixLocation = glGetUniformLocation(shaderProgramID, "model");
+    glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+
     // Draw the triangle using shaders
     glBindVertexArray(vertexArrayID);
     glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -161,6 +180,7 @@ void RenderingSystem::Render() {
         std::cerr << "OpenGL error (after rendering): " << error << std::endl;
     }
 }
+
 
 void RenderingSystem::ResizeWindow(int newWidth, int newHeight) {
     screenWidth = newWidth;

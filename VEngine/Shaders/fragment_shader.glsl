@@ -1,13 +1,9 @@
 #version 330 core
 
-in vec3 fragPosition;  // Received from vertex shader
+in vec3 color;
 
-out vec4 FragColor;
+out vec4 fragColor;
 
 void main() {
-    vec3 cameraPosition = vec3(0.0, 0.0, 3.0);  // Set your camera position here
-    float distanceToCamera = length(fragPosition - cameraPosition);
-
-    // Use distanceToCamera for some color computation
-    FragColor = vec4(vec3(distanceToCamera), 1.0);
+    fragColor = vec4(color, 1.0);
 }
