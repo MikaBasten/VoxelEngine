@@ -82,6 +82,10 @@ void RenderingSystem::Initialize(int screenWidth, int screenHeight, bool fullscr
     glGenBuffers(1, &vertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 
+    // Generate and bind Element Buffer Object (EBO)
+    glGenBuffers(1, &elementBufferID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferID);
+
     // Initialize shaders
     SetupShaders();
 }
@@ -159,7 +163,7 @@ void RenderingSystem::LoadScene(const GLfloat* vertexBufferData, GLsizei bufferS
 }
 
 
-void RenderingSystem::Render(GLsizei vertexCount) {
+void RenderingSystem::Render(GLsizei vertexCount, bool wireframeMode) {
     // Clear the screen and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -188,7 +192,20 @@ void RenderingSystem::Render(GLsizei vertexCount) {
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
    
 
+    // Set wireframe mode
+    if (wireframeMode) {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
+    else {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+
+    // Draw the geometry using shaders
+    glBindVertexArray(vertexArrayID);
     glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
+
+    // Reset to default polygon mode
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     // Swap buffers at the end of the rendering process
     SDL_GL_SwapWindow(window);

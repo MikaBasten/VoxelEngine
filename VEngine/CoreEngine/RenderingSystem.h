@@ -12,7 +12,7 @@ public:
 
     void Initialize(int screenWidth, int screenHeight, bool fullscreen);
     void LoadScene(const GLfloat* vertexBufferData, GLsizei bufferSize);
-    void Render(GLsizei vertexCount);
+    void Render(GLsizei vertexCount, bool wireframeMode);
     void ResizeWindow(int newWidth, int newHeight);
     void ToggleFullscreen();
     void UpdateCamera(SDL_Event& event);
@@ -25,6 +25,7 @@ private:
     SDL_GLContext context;
     GLuint vertexArrayID;
     GLuint vertexBufferID;
+    GLuint elementBufferID;
     GLuint shaderProgramID;  // Added for shader support
     int screenWidth;
     int screenHeight;
