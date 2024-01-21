@@ -151,19 +151,23 @@ void RenderingSystem::SetupShaders() {
 }
 
 
-void RenderingSystem::LoadScene(const GLfloat* vertexBufferData, GLsizei bufferSize) {
+void RenderingSystem::LoadScene(const GLfloat* vertexBufferData, GLsizei vertexBufferSize,
+    const GLuint* indexBufferData, GLsizei indexBufferSize) {
     // Assuming you have already generated and bound the vertex array and buffer objects
     glBindVertexArray(vertexArrayID);
 
-    // Clear previous buffer data
-    glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STATIC_DRAW);
+    // Bind and fill vertex buffer
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, vertexBufferData, GL_STATIC_DRAW);
 
-    // Load the provided vertex buffer data
-    glBufferData(GL_ARRAY_BUFFER, bufferSize, vertexBufferData, GL_STATIC_DRAW);
+    // Bind and fill element buffer (EBO)
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferID);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize, indexBufferData, GL_STATIC_DRAW);
 }
 
 
-void RenderingSystem::Render(GLsizei vertexCount, bool wireframeMode) {
+
+void RenderingSystem::Render(GLsizei indexCount, bool wireframeMode) {
     // Clear the screen and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -185,12 +189,8 @@ void RenderingSystem::Render(GLsizei vertexCount, bool wireframeMode) {
     GLint modelMatrixLocation = glGetUniformLocation(shaderProgramID, "model");
     glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
-    // Draw the geometry using shaders
+    // Draw the geometry using shaders and EBO
     glBindVertexArray(vertexArrayID);
-
-
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-   
 
     // Set wireframe mode
     if (wireframeMode) {
@@ -200,9 +200,9 @@ void RenderingSystem::Render(GLsizei vertexCount, bool wireframeMode) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
-    // Draw the geometry using shaders
+    // Draw the geometry using shaders and EBO
     glBindVertexArray(vertexArrayID);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
     // Reset to default polygon mode
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

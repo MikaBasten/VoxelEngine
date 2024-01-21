@@ -11,7 +11,7 @@ public:
     ~RenderingSystem();
 
     void Initialize(int screenWidth, int screenHeight, bool fullscreen);
-    void LoadScene(const GLfloat* vertexBufferData, GLsizei bufferSize);
+    void LoadScene(const GLfloat* vertexBufferData, GLsizei vertexBufferSize, const GLuint* indexBufferData, GLsizei indexBufferSize);
     void Render(GLsizei vertexCount, bool wireframeMode);
     void ResizeWindow(int newWidth, int newHeight);
     void ToggleFullscreen();
