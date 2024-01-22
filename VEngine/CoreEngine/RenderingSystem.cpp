@@ -151,23 +151,37 @@ void RenderingSystem::SetupShaders() {
 }
 
 
-void RenderingSystem::LoadScene(const GLfloat* vertexBufferData, GLsizei vertexBufferSize,
-    const GLuint* indexBufferData, GLsizei indexBufferSize) {
-    // Assuming you have already generated and bound the vertex array and buffer objects
+void RenderingSystem::LoadScene(const GLfloat* vertices, GLsizei verticesSize, const GLuint* indices, GLsizei indicesSize) {
+    // Create Vertex Array Object (VAO)
+    glGenVertexArrays(1, &vertexArrayID);
     glBindVertexArray(vertexArrayID);
 
-    // Bind and fill vertex buffer
+    // Create Vertex Buffer Object (VBO)
+    glGenBuffers(1, &vertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, vertexBufferData, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
 
-    // Bind and fill element buffer (EBO)
+    // Create Element Buffer Object (EBO)
+    glGenBuffers(1, &elementBufferID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize, indexBufferData, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices, GL_STATIC_DRAW);
+
+    // Specify the layout of the vertex data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+    glEnableVertexAttribArray(0);
+
+    // Specify the color data
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
+
+    // Update the index count
+    indexCount = indicesSize / sizeof(GLuint);
 }
 
 
 
-void RenderingSystem::Render(GLsizei indexCount, bool wireframeMode) {
+
+void RenderingSystem::Render(bool wireframeMode) {
     // Clear the screen and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

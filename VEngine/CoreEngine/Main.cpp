@@ -8,6 +8,7 @@
 int SDL_main(int argc, char* argv[]) {
 
     bool wireframeMode = false;
+    bool cube = false;
     RenderingSystem renderingSystem;
 
 
@@ -101,7 +102,7 @@ int SDL_main(int argc, char* argv[]) {
     // Load the single polygon scene
     renderingSystem.LoadScene(squareVertices, sizeof(squareVertices), squareIndices, sizeof(squareIndices));
 
-
+    
     // Main render loop
     bool isRunning = true;
     while (isRunning) {
@@ -111,16 +112,17 @@ int SDL_main(int argc, char* argv[]) {
                 isRunning = false;
             }
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_u) {
+                cube = false;
                 renderingSystem.LoadScene(triangleVertices, sizeof(triangleVertices),
                     triangleIndices, sizeof(triangleIndices));
             }
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_i) {
+                cube = false;
                 renderingSystem.LoadScene(squareVertices, sizeof(squareVertices),
                     squareIndices, sizeof(squareIndices));
             }
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_o) {
-                renderingSystem.LoadScene(cubeVertices, sizeof(cubeVertices),
-                    cubeIndices, sizeof(cubeIndices));
+                cube = !cube;
             }
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_p) {
                 wireframeMode = !wireframeMode;
@@ -129,9 +131,22 @@ int SDL_main(int argc, char* argv[]) {
             renderingSystem.UpdateCamera(event);
         }
 
-        // You can call other update logic here
+        // Update logic for rotation
+        float rotationSpeed = 0.005f; // Adjust as needed
+        if (cube) {
+            // Apply rotation to the cube vertices
+            for (int i = 0; i < sizeof(cubeVertices) / sizeof(cubeVertices[0]); i += 6) {
+                float x = cubeVertices[i];
+                float z = cubeVertices[i + 2];
 
-        renderingSystem.Render(36, wireframeMode);
+                cubeVertices[i] = x * cos(rotationSpeed) - z * sin(rotationSpeed);
+                cubeVertices[i + 2] = x * sin(rotationSpeed) + z * cos(rotationSpeed);
+            }
+            renderingSystem.LoadScene(cubeVertices, sizeof(cubeVertices),
+                cubeIndices, sizeof(cubeIndices));
+        }
+        // You can call other update logic here
+        renderingSystem.Render(wireframeMode);
 
         // You might want to add a delay to control the frame rate
         SDL_Delay(16); // Adjust as needed

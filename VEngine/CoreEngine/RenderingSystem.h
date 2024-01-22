@@ -12,7 +12,7 @@ public:
 
     void Initialize(int screenWidth, int screenHeight, bool fullscreen);
     void LoadScene(const GLfloat* vertexBufferData, GLsizei vertexBufferSize, const GLuint* indexBufferData, GLsizei indexBufferSize);
-    void Render(GLsizei vertexCount, bool wireframeMode);
+    void Render(bool wireframeMode);
     void ResizeWindow(int newWidth, int newHeight);
     void ToggleFullscreen();
     void UpdateCamera(SDL_Event& event);
@@ -23,6 +23,7 @@ public:
 private:
     SDL_Window* window;
     SDL_GLContext context;
+    GLsizei indexCount;
     GLuint vertexArrayID;
     GLuint vertexBufferID;
     GLuint elementBufferID;
